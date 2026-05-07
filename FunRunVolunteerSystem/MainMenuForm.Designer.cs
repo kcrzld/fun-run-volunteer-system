@@ -1,6 +1,6 @@
 ﻿namespace FunRunVolunteerSystem
 {
-    partial class Form1
+    partial class MainMenu
     {
         /// <summary>
         /// Required designer variable.
@@ -54,7 +54,7 @@
             this.btnDisplayResults.TabIndex = 0;
             this.btnDisplayResults.Text = "Dsiplay Results";
             this.btnDisplayResults.UseVisualStyleBackColor = true;
-            this.btnDisplayResults.Click += new System.EventHandler(this.btnDisplayResults_Click);
+            this.btnDisplayResults.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnComputeAssignment
             // 
@@ -65,7 +65,7 @@
             this.btnComputeAssignment.TabIndex = 0;
             this.btnComputeAssignment.Text = "Compute Assignment";
             this.btnComputeAssignment.UseVisualStyleBackColor = true;
-            this.btnComputeAssignment.Click += new System.EventHandler(this.btnComputeAssignment_Click);
+            this.btnComputeAssignment.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // btnAddVolunteer
             // 
@@ -76,9 +76,9 @@
             this.btnAddVolunteer.TabIndex = 0;
             this.btnAddVolunteer.Text = "Add Volunteer";
             this.btnAddVolunteer.UseVisualStyleBackColor = true;
-            this.btnAddVolunteer.Click += new System.EventHandler(this.btnAddVolunteer_Click);
+            this.btnAddVolunteer.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // Form1
+            // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -87,7 +87,7 @@
             this.Controls.Add(this.btnDisplayResults);
             this.Controls.Add(this.btnAddVolunteer);
             this.Controls.Add(this.btnExit);
-            this.Name = "Form1";
+            this.Name = "MainMenu";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);

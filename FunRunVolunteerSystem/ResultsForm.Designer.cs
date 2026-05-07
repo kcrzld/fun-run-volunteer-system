@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvPreferencesResult = new System.Windows.Forms.DataGridView();
             this.colVolunteer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAssignedBooth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPreferencesResult)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dgvPreferencesResult
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvPreferencesResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvPreferencesResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colVolunteer,
             this.colAssignedBooth});
-            this.dataGridView1.Location = new System.Drawing.Point(442, 201);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(302, 86);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvPreferencesResult.Location = new System.Drawing.Point(442, 201);
+            this.dgvPreferencesResult.Name = "dgvPreferencesResult";
+            this.dgvPreferencesResult.RowHeadersWidth = 51;
+            this.dgvPreferencesResult.RowTemplate.Height = 24;
+            this.dgvPreferencesResult.Size = new System.Drawing.Size(302, 86);
+            this.dgvPreferencesResult.TabIndex = 0;
             // 
             // colVolunteer
             // 
@@ -66,17 +66,17 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 673);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvPreferencesResult);
             this.Name = "ResultsForm";
             this.Text = "ResultsForm";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvPreferencesResult)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvPreferencesResult;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVolunteer;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAssignedBooth;
     }

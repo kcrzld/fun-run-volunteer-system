@@ -40,6 +40,7 @@
             this.btnRegister.TabIndex = 0;
             this.btnRegister.Text = "Register";
             this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
             // 
             // txtName
             // 
@@ -57,6 +58,7 @@
             this.Controls.Add(this.btnRegister);
             this.Name = "RegisterVolunteerForm";
             this.Text = "RegisterVolunteerForm";
+            this.Load += new System.EventHandler(this.RegisterVolunteerForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
