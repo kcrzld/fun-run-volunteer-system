@@ -36,16 +36,21 @@
             // 
             // dgvPreferencesResult
             // 
+            this.dgvPreferencesResult.AllowUserToAddRows = false;
+            this.dgvPreferencesResult.AllowUserToDeleteRows = false;
             this.dgvPreferencesResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPreferencesResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colVolunteer,
             this.colAssignedBooth});
-            this.dgvPreferencesResult.Location = new System.Drawing.Point(442, 201);
+            this.dgvPreferencesResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvPreferencesResult.Location = new System.Drawing.Point(0, 0);
             this.dgvPreferencesResult.Name = "dgvPreferencesResult";
+            this.dgvPreferencesResult.ReadOnly = true;
             this.dgvPreferencesResult.RowHeadersWidth = 51;
             this.dgvPreferencesResult.RowTemplate.Height = 24;
-            this.dgvPreferencesResult.Size = new System.Drawing.Size(302, 86);
+            this.dgvPreferencesResult.Size = new System.Drawing.Size(1262, 673);
             this.dgvPreferencesResult.TabIndex = 0;
+            this.dgvPreferencesResult.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPreferencesResult_CellContentClick);
             // 
             // colVolunteer
             // 
@@ -69,6 +74,7 @@
             this.Controls.Add(this.dgvPreferencesResult);
             this.Name = "ResultsForm";
             this.Text = "ResultsForm";
+            this.Load += new System.EventHandler(this.ResultsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPreferencesResult)).EndInit();
             this.ResumeLayout(false);
 

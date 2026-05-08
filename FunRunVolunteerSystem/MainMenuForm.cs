@@ -12,7 +12,7 @@ namespace FunRunVolunteerSystem
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.FormBorderStyle = FormBorderStyle.None;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
 
             this.WindowState = FormWindowState.Maximized;
 

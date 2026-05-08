@@ -20,28 +20,33 @@ namespace FunRunVolunteerSystem
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+            int volunteerID = 0;
+
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
 
-                string query =
-                "INSERT INTO Volunteers (VolunteerName) VALUES (@name)";
+                string query = @"INSERT INTO Volunteers (VolunteerName) OUTPUT INSERTED.VolunteerID VALUES (@name)";
 
                 SqlCommand cmd = new SqlCommand(query, con);
 
                 cmd.Parameters.AddWithValue("@name", txtName.Text);
 
-                cmd.ExecuteNonQuery();
+                volunteerID = (int)cmd.ExecuteScalar();
             }
 
             MessageBox.Show("Volunteer Registered Successfully!");
 
-            txtName.Clear();
+            PreferenceForm prefForm = new PreferenceForm(volunteerID);
+
+            prefForm.Show();
+
+            this.Hide();
         }
 
         private void RegisterVolunteerForm_Load(object sender, EventArgs e)
         {
-            this.FormBorderStyle = FormBorderStyle.None;
+            this.FormBorderStyle = FormBorderStyle.Sizable;
 
             this.WindowState = FormWindowState.Maximized;
 
