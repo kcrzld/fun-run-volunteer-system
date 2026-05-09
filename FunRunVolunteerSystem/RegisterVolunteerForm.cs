@@ -13,9 +13,11 @@ namespace FunRunVolunteerSystem
 {
     public partial class RegisterVolunteerForm : Form
     {
-        public RegisterVolunteerForm()
+        Form1 mainForm;
+        public RegisterVolunteerForm(Form1 form)
         {
             InitializeComponent();
+            mainForm = form;
         }
 
         private void RegisterVolunteerForm_Load(object sender, EventArgs e)
@@ -51,6 +53,21 @@ namespace FunRunVolunteerSystem
             prefForm.Show();
 
             this.Hide();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+            "Go back to Main Menu? Unsaved data will be lost.",
+            "Confirm",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                mainForm.Show();
+                this.Close();
+            }
         }
     }
 }

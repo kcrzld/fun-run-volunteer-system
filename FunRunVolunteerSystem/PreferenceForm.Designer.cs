@@ -30,11 +30,13 @@
         {
             this.btnSave = new System.Windows.Forms.Button();
             this.dgvPreferences = new System.Windows.Forms.DataGridView();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPreferences)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSave
             // 
+            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSave.Location = new System.Drawing.Point(617, 432);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(101, 41);
@@ -56,11 +58,23 @@
             this.dgvPreferences.TabIndex = 1;
             this.dgvPreferences.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPreferences_CellContentClick);
             // 
+            // btnBack
+            // 
+            this.btnBack.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnBack.Location = new System.Drawing.Point(501, 432);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(101, 41);
+            this.btnBack.TabIndex = 2;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // PreferenceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.dgvPreferences);
             this.Controls.Add(this.btnSave);
             this.Name = "PreferenceForm";
@@ -75,5 +89,6 @@
 
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridView dgvPreferences;
+        private System.Windows.Forms.Button btnBack;
     }
 }

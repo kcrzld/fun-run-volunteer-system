@@ -28,7 +28,7 @@ namespace FunRunVolunteerSystem
         // add volunteer button
         private void btnAddVolunteer_Click(object sender, EventArgs e)
         {
-            RegisterVolunteerForm registerForm = new RegisterVolunteerForm();
+            RegisterVolunteerForm registerForm = new RegisterVolunteerForm(this);
             registerForm.Show();
             this.Hide();
         }
@@ -40,7 +40,12 @@ namespace FunRunVolunteerSystem
 
             if (count < 55)
             {
-                MessageBox.Show("Not enough volunteers yet.");
+                MessageBox.Show(
+                    "Not enough volunteers yet.",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
@@ -59,6 +64,27 @@ namespace FunRunVolunteerSystem
         // display results button
         private void btnDisplayResults_Click(object sender, EventArgs e)
         {
+            using (SqlConnection con = DatabaseHelper.GetConnection())
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM Assignments", con);
+
+                int count = (int)cmd.ExecuteScalar();
+
+                if (count == 0)
+                {
+                    MessageBox.Show(
+                        "No assignments found. Please compute assignments first before viewing results.",
+                        "Warning",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+            }
+
             ResultsForm form = new ResultsForm();
             form.Show();
             this.Hide();

@@ -15,6 +15,9 @@ namespace FunRunVolunteerSystem
         private void ResultsForm_Load(object sender, EventArgs e)
         {
             LoadResults();
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
         }
 
         

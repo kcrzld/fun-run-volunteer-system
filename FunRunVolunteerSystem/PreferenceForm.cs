@@ -14,16 +14,18 @@ namespace FunRunVolunteerSystem
     public partial class PreferenceForm : Form
     {
         private int volunteerID;
-
         public PreferenceForm(int vID)
         {
             InitializeComponent();
-
             volunteerID = vID;
         }
 
         private void PreferenceForm_Load(object sender, EventArgs e)
         {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.WindowState = FormWindowState.Maximized;
+            this.TopMost = false;
+
             // adding colums for the dgv
             dgvPreferences.Columns.Clear();
 
@@ -94,16 +96,46 @@ namespace FunRunVolunteerSystem
             }
                 
             MessageBox.Show("Preferences Saved Successfully!");
-
-            Form1 menu = new Form1();
-            menu.Show();
-
-            this.Close();
         }
 
         private void dgvPreferences_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+        "Are you sure you want to go back to the Main Menu?\n\nThis will remove the current volunteer record.",
+        "Confirm Navigation",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                using (SqlConnection con = DatabaseHelper.GetConnection())
+                {
+                    con.Open();
+
+                    // delete preferences first (if exists)
+                    SqlCommand deletePrefs = new SqlCommand(
+                        "DELETE FROM Preferences WHERE VolunteerID = @id", con);
+
+                    deletePrefs.Parameters.AddWithValue("@id", volunteerID);
+                    deletePrefs.ExecuteNonQuery();
+
+                    // delete volunteer
+                    SqlCommand deleteVolunteer = new SqlCommand(
+                        "DELETE FROM Volunteers WHERE VolunteerID = @id", con);
+
+                    deleteVolunteer.Parameters.AddWithValue("@id", volunteerID);
+                    deleteVolunteer.ExecuteNonQuery();
+                }
+
+                Form1 main = new Form1();
+                main.Show();
+                this.Close();
+            }
         }
     }
 }
