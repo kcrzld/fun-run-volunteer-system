@@ -57,6 +57,7 @@
             this.colVolunteer.HeaderText = "Volunteer Name";
             this.colVolunteer.MinimumWidth = 6;
             this.colVolunteer.Name = "colVolunteer";
+            this.colVolunteer.ReadOnly = true;
             this.colVolunteer.Width = 125;
             // 
             // colAssignedBooth
@@ -64,6 +65,7 @@
             this.colAssignedBooth.HeaderText = "Assigned Booth";
             this.colAssignedBooth.MinimumWidth = 6;
             this.colAssignedBooth.Name = "colAssignedBooth";
+            this.colAssignedBooth.ReadOnly = true;
             this.colAssignedBooth.Width = 125;
             // 
             // ResultsForm

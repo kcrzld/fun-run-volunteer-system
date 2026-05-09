@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace FunRunVolunteerSystem
 {
@@ -9,51 +8,80 @@ namespace FunRunVolunteerSystem
         {
             int n = cost.GetLength(0);
 
-            int[,] matrix = (int[,])cost.Clone();
+            int[] u = new int[n + 1];
+            int[] v = new int[n + 1];
+            int[] p = new int[n + 1];
+            int[] way = new int[n + 1];
 
-            // STEP 1: Row Reduction
-            for (int i = 0; i < n; i++)
+            for (int i = 1; i <= n; i++)
             {
-                int min = matrix[i, 0];
+                p[0] = i;
+                int j0 = 0;
 
-                for (int j = 1; j < n; j++)
-                    if (matrix[i, j] < min)
-                        min = matrix[i, j];
+                int[] minv = new int[n + 1];
+                bool[] used = new bool[n + 1];
 
-                for (int j = 0; j < n; j++)
-                    matrix[i, j] -= min;
-            }
+                for (int j = 1; j <= n; j++)
+                    minv[j] = int.MaxValue;
 
-            // STEP 2: Column Reduction
-            for (int j = 0; j < n; j++)
-            {
-                int min = matrix[0, j];
-
-                for (int i = 1; i < n; i++)
-                    if (matrix[i, j] < min)
-                        min = matrix[i, j];
-
-                for (int i = 0; i < n; i++)
-                    matrix[i, j] -= min;
-            }
-
-            // STEP 3: Assignment
-            int[] result = new int[n];
-            bool[] assignedCols = new bool[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                result[i] = -1;
-
-                for (int j = 0; j < n; j++)
+                do
                 {
-                    if (matrix[i, j] == 0 && !assignedCols[j])
+                    used[j0] = true;
+                    int i0 = p[j0];
+                    int delta = int.MaxValue;
+                    int j1 = 0;
+
+                    for (int j = 1; j <= n; j++)
                     {
-                        result[i] = j;
-                        assignedCols[j] = true;
-                        break;
+                        if (!used[j])
+                        {
+                            int cur = cost[i0 - 1, j - 1] - u[i0] - v[j];
+
+                            if (cur < minv[j])
+                            {
+                                minv[j] = cur;
+                                way[j] = j0;
+                            }
+
+                            if (minv[j] < delta)
+                            {
+                                delta = minv[j];
+                                j1 = j;
+                            }
+                        }
                     }
-                }
+
+                    for (int j = 0; j <= n; j++)
+                    {
+                        if (used[j])
+                        {
+                            u[p[j]] += delta;
+                            v[j] -= delta;
+                        }
+                        else
+                        {
+                            minv[j] -= delta;
+                        }
+                    }
+
+                    j0 = j1;
+
+                } while (p[j0] != 0);
+
+                do
+                {
+                    int j1 = way[j0];
+                    p[j0] = p[j1];
+                    j0 = j1;
+                } while (j0 != 0);
+            }
+
+            int[] result = new int[n];
+
+            for (int j = 1; j <= n; j++)
+            {
+                if (p[j] - 1 < cost.GetLength(0))
+                    result[p[j] - 1] = j - 1;
             }
 
             return result;

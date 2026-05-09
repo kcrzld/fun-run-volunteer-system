@@ -82,8 +82,14 @@ namespace FunRunVolunteerSystem
                     insertCmd.ExecuteNonQuery();
                 }
             }
+                
 
             MessageBox.Show("Preferences Saved Successfully!");
+
+            Form1 menu = new Form1();
+            menu.Show();
+
+            this.Close();
         }
     }
 }

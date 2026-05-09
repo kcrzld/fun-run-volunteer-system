@@ -16,7 +16,7 @@ namespace FunRunVolunteerSystem
         {
             LoadResults();
         }
-
+            
         private void LoadResults()
         {
             using (SqlConnection con = DatabaseHelper.GetConnection())
@@ -34,6 +34,9 @@ namespace FunRunVolunteerSystem
 
                 DataTable dt = new DataTable();
                 da.Fill(dt);
+
+                dgvPreferencesResult.Columns.Clear();
+                dgvPreferencesResult.AutoGenerateColumns = true;
 
                 dgvPreferencesResult.DataSource = dt;
 
