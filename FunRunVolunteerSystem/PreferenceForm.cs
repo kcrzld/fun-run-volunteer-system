@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Data.SqlClient;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FunRunVolunteerSystem
 {
@@ -24,6 +24,7 @@ namespace FunRunVolunteerSystem
 
         private void PreferenceForm_Load(object sender, EventArgs e)
         {
+            // adding colums for the dgv
             dgvPreferences.Columns.Clear();
 
             dgvPreferences.Columns.Add("Booth", "Booth");
@@ -43,8 +44,17 @@ namespace FunRunVolunteerSystem
             dgvPreferences.Rows.Add("Freebie 3km");
             dgvPreferences.Rows.Add("Freebie 5km");
             dgvPreferences.Rows.Add("Finish Line");
+
+            // UI FIX
+            dgvPreferences.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPreferences.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvPreferences.RowHeadersVisible = false;
+            dgvPreferences.AllowUserToResizeRows = false;
+
+
         }
 
+        // save preferences button
         private void btnSave_Click(object sender, EventArgs e)
         {
             using (SqlConnection con = DatabaseHelper.GetConnection())
@@ -83,13 +93,17 @@ namespace FunRunVolunteerSystem
                 }
             }
                 
-
             MessageBox.Show("Preferences Saved Successfully!");
 
             Form1 menu = new Form1();
             menu.Show();
 
             this.Close();
+        }
+
+        private void dgvPreferences_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

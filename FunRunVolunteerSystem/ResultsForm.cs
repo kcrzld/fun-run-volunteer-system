@@ -16,7 +16,10 @@ namespace FunRunVolunteerSystem
         {
             LoadResults();
         }
-            
+
+        
+
+        // load results
         private void LoadResults()
         {
             using (SqlConnection con = DatabaseHelper.GetConnection())
@@ -47,7 +50,6 @@ namespace FunRunVolunteerSystem
 
         private void dgvPreferencesResult_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.SqlClient;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,8 +8,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
-using System.Windows.Forms;
 
 namespace FunRunVolunteerSystem
 {
@@ -18,6 +18,14 @@ namespace FunRunVolunteerSystem
             InitializeComponent();
         }
 
+        private void RegisterVolunteerForm_Load(object sender, EventArgs e)
+        {
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.WindowState = FormWindowState.Maximized;
+            this.TopMost = true;
+        }
+
+        // register button
         private void btnRegister_Click(object sender, EventArgs e)
         {
             int volunteerID = 0;
@@ -26,7 +34,8 @@ namespace FunRunVolunteerSystem
             {
                 con.Open();
 
-                string query = @"INSERT INTO Volunteers (VolunteerName) OUTPUT INSERTED.VolunteerID VALUES (@name)";
+                string query = 
+                    @"INSERT INTO Volunteers (VolunteerName) OUTPUT INSERTED.VolunteerID VALUES (@name)";
 
                 SqlCommand cmd = new SqlCommand(query, con);
 
@@ -42,15 +51,6 @@ namespace FunRunVolunteerSystem
             prefForm.Show();
 
             this.Hide();
-        }
-
-        private void RegisterVolunteerForm_Load(object sender, EventArgs e)
-        {
-            this.FormBorderStyle = FormBorderStyle.Sizable;
-
-            this.WindowState = FormWindowState.Maximized;
-
-            this.TopMost = true;
         }
     }
 }

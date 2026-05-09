@@ -42,13 +42,12 @@
             this.dgvPreferencesResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colVolunteer,
             this.colAssignedBooth});
-            this.dgvPreferencesResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvPreferencesResult.Location = new System.Drawing.Point(0, 0);
+            this.dgvPreferencesResult.Location = new System.Drawing.Point(478, 145);
             this.dgvPreferencesResult.Name = "dgvPreferencesResult";
             this.dgvPreferencesResult.ReadOnly = true;
             this.dgvPreferencesResult.RowHeadersWidth = 51;
             this.dgvPreferencesResult.RowTemplate.Height = 24;
-            this.dgvPreferencesResult.Size = new System.Drawing.Size(1262, 673);
+            this.dgvPreferencesResult.Size = new System.Drawing.Size(511, 300);
             this.dgvPreferencesResult.TabIndex = 0;
             this.dgvPreferencesResult.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPreferencesResult_CellContentClick);
             // 

@@ -19,11 +19,13 @@ namespace FunRunVolunteerSystem
             this.TopMost = true;
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        /*
+         
+                    ---------- BUTTONS -----------
+         
+        */
 
+        // add volunteer button
         private void btnAddVolunteer_Click(object sender, EventArgs e)
         {
             RegisterVolunteerForm registerForm = new RegisterVolunteerForm();
@@ -31,6 +33,7 @@ namespace FunRunVolunteerSystem
             this.Hide();
         }
 
+        // compute assignment button
         private void btnComputeAssignment_Click(object sender, EventArgs e)
         {
             int count = GetVolunteerCount();
@@ -53,20 +56,43 @@ namespace FunRunVolunteerSystem
             MessageBox.Show("Assignment Completed!");
         }
 
+        // display results button
+        private void btnDisplayResults_Click(object sender, EventArgs e)
+        {
+            ResultsForm form = new ResultsForm();
+            form.Show();
+            this.Hide();
+        }
+
+        // exit button
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+
+        /*
+         
+                  ---------- HELPERS -----------
+         
+        */
+
+        // method to get the volunteer's count
         private int GetVolunteerCount()
         {
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand(
-                    "SELECT COUNT(*) FROM Volunteers", con);
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Volunteers", con);
 
                 return (int)cmd.ExecuteScalar();
             }
         }
 
-        // ✅ FIXED COST MATRIX (HUNGARIAN READY)
+        /* build cost matrix for the hungarian method - 
+         * converts the real-world data (preferences) into a numerical 
+         * matrix that the Hungarian algorithm can understand and process */
         private int[,] BuildCostMatrix(out List<int> volunteerIds, out List<int> boothSlots)
         {
             volunteerIds = new List<int>();
@@ -76,7 +102,7 @@ namespace FunRunVolunteerSystem
             {
                 con.Open();
 
-                // VOLUNTEERS
+                // volunteers
                 SqlCommand vcmd = new SqlCommand(
                     "SELECT VolunteerID FROM Volunteers ORDER BY VolunteerID", con);
 
@@ -85,7 +111,7 @@ namespace FunRunVolunteerSystem
                     volunteerIds.Add(Convert.ToInt32(vr[0]));
                 vr.Close();
 
-                // BOOTH SLOTS (5 per booth)
+                // booth slots (5 per booth)
                 SqlCommand bcmd = new SqlCommand(
                     "SELECT BoothID FROM Booths ORDER BY BoothID", con);
 
@@ -134,14 +160,14 @@ namespace FunRunVolunteerSystem
             }
         }
 
-        // ✅ FIXED SAVE (WITH 5-SLOT CAPACITY RULE)
+        // fixed saving with 5-slot capacity rule
         private void SaveAssignments(int[] result, List<int> volunteerIds, List<int> boothSlots)
         {
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
 
-                // CLEAR OLD DATA
+                // clear old data
                 SqlCommand clear = new SqlCommand("DELETE FROM Assignments", con);
                 clear.ExecuteNonQuery();
 
@@ -178,13 +204,6 @@ namespace FunRunVolunteerSystem
                     }
                 }
             }
-        }
-
-        private void btnDisplayResults_Click(object sender, EventArgs e)
-        {
-            ResultsForm form = new ResultsForm();
-            form.Show();
-            this.Hide();
         }
     }
 }

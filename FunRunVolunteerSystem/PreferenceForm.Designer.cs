@@ -35,7 +35,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(588, 583);
+            this.btnSave.Location = new System.Drawing.Point(617, 432);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(101, 41);
             this.btnSave.TabIndex = 0;
@@ -46,14 +46,15 @@
             // dgvPreferences
             // 
             this.dgvPreferences.AllowUserToAddRows = false;
+            this.dgvPreferences.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvPreferences.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPreferences.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dgvPreferences.Location = new System.Drawing.Point(0, 0);
+            this.dgvPreferences.Location = new System.Drawing.Point(341, 78);
             this.dgvPreferences.Name = "dgvPreferences";
             this.dgvPreferences.RowHeadersWidth = 51;
             this.dgvPreferences.RowTemplate.Height = 24;
-            this.dgvPreferences.Size = new System.Drawing.Size(1262, 511);
+            this.dgvPreferences.Size = new System.Drawing.Size(500, 299);
             this.dgvPreferences.TabIndex = 1;
+            this.dgvPreferences.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPreferences_CellContentClick);
             // 
             // PreferenceForm
             // 
