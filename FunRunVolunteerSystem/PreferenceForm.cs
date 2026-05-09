@@ -59,43 +59,151 @@ namespace FunRunVolunteerSystem
         // save preferences button
         private void btnSave_Click(object sender, EventArgs e)
         {
+            List<int> ranks = new List<int>();
+
+            // temporary storage before SQL insert
+            List<(string boothName, int rank)> preferences =
+                new List<(string boothName, int rank)>();
+
+            // validation phase
+
+            for (int i = 0; i < dgvPreferences.Rows.Count; i++)
+            {
+                // validate booth
+                if (dgvPreferences.Rows[i].Cells[0].Value == null)
+                {
+                    MessageBox.Show(
+                        $"Row {i + 1}: Booth name is missing.",
+                        "Input Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                string boothName =
+                    dgvPreferences.Rows[i].Cells[0].Value.ToString();
+
+                // validate rank input
+                if (dgvPreferences.Rows[i].Cells[1].Value == null ||
+                    !int.TryParse(
+                        dgvPreferences.Rows[i].Cells[1].Value.ToString(),
+                        out int rank))
+                {
+                    MessageBox.Show(
+                        $"Row {i + 1} ({boothName}): Invalid rank.",
+                        "Input Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                // validate range
+                if (rank < 1 || rank > 11)
+                {
+                    MessageBox.Show(
+                        $"Row {i + 1} ({boothName}): Rank must be between 1 and 11.",
+                        "Invalid Range",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                ranks.Add(rank);
+
+                // store temporarily
+                preferences.Add((boothName, rank));
+            }
+
+            // check duplicates
+
+            if (ranks.Distinct().Count() != ranks.Count)
+            {
+                MessageBox.Show(
+                    "Duplicate ranks detected!\nEach booth must have a unique rank (1–11).",
+                    "Ranking Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            // database insert phase
+
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
 
-                for (int i = 0; i < dgvPreferences.Rows.Count; i++)
+                // delete old preferences first
+                SqlCommand clearCmd = new SqlCommand(
+                    "DELETE FROM Preferences WHERE VolunteerID = @id", con);
+
+                clearCmd.Parameters.AddWithValue("@id", volunteerID);
+
+                clearCmd.ExecuteNonQuery();
+
+                foreach (var pref in preferences)
                 {
-                    string boothName =
-                        dgvPreferences.Rows[i]
-                        .Cells[0]
-                        .Value
-                        .ToString();
+                    // get booth ID
+                    SqlCommand boothCmd = new SqlCommand(
+                        "SELECT BoothID FROM Booths WHERE BoothName = @name", con);
 
-                    int score = Convert.ToInt32(dgvPreferences.Rows[i].Cells[1].Value);
+                    boothCmd.Parameters.AddWithValue("@name", pref.boothName);
 
-                    string boothQuery = "SELECT BoothID FROM Booths WHERE BoothName=@name";
+                    object result = boothCmd.ExecuteScalar();
 
-                    SqlCommand boothCmd = new SqlCommand(boothQuery, con);
+                    if (result == null)
+                    {
+                        MessageBox.Show(
+                            $"Booth '{pref.boothName}' not found in database.",
+                            "Database Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
 
-                    boothCmd.Parameters.AddWithValue("@name", boothName);
+                        return;
+                    }
 
-                    int boothID = (int)boothCmd.ExecuteScalar();
+                    int boothID = (int)result;
 
-                    string insertQuery = @"INSERT INTO Preferences(VolunteerID, BoothID, PreferenceScore) VALUES(@volunteerID, @boothID, @score)";
-
-                    SqlCommand insertCmd = new SqlCommand(insertQuery, con);
+                    // insert preference
+                    SqlCommand insertCmd = new SqlCommand(@"
+                INSERT INTO Preferences
+                (VolunteerID, BoothID, PreferenceScore)
+                VALUES
+                (@volunteerID, @boothID, @score)", con);
 
                     insertCmd.Parameters.AddWithValue("@volunteerID", volunteerID);
-
                     insertCmd.Parameters.AddWithValue("@boothID", boothID);
+                    insertCmd.Parameters.AddWithValue("@score", pref.rank);
 
-                    insertCmd.Parameters.AddWithValue("@score", score);
+                    try
+                    {
+                        insertCmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(
+                            ex.Message,
+                            "SQL Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
 
-                    insertCmd.ExecuteNonQuery();
+                        return;
+                    }
                 }
             }
-                
-            MessageBox.Show("Preferences Saved Successfully!");
+
+            MessageBox.Show(
+                "Preferences Saved Successfully!",
+                "Success",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+            Form1 main = new Form1();
+            main.Show();
+            this.Close();
         }
 
         private void dgvPreferences_CellContentClick(object sender, DataGridViewCellEventArgs e)
