@@ -16,7 +16,7 @@ namespace FunRunVolunteerSystem
         {
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
-            this.TopMost = true;
+           // this.TopMost = true;
         }
 
         /*

@@ -25,6 +25,11 @@ namespace FunRunVolunteerSystem
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
             this.TopMost = true;
+
+            txtName.Text = "Enter your name here...";
+            txtName.ForeColor = Color.Gray;
+
+            this.ActiveControl = btnRegister;
         }
 
         // register button
@@ -69,5 +74,25 @@ namespace FunRunVolunteerSystem
                 this.Close();
             }
         }
+
+        private void txtName_Enter(object sender, EventArgs e)
+        {
+            if (txtName.Text.Contains("Enter your name"))
+            {
+                txtName.Text = "";
+                txtName.ForeColor = Color.Black;
+            }
+        }
+
+        // Placeholderr textz
+        private void txtName_Leave(object sender, EventArgs e)
+        {
+            if (txtName.Text == "")
+            {
+                txtName.Text = "Enter your name here...";
+                txtName.ForeColor = Color.Gray;
+            }
+        }
+   
     }
 }

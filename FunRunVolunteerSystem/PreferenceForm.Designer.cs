@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PreferenceForm));
             this.btnSave = new System.Windows.Forms.Button();
             this.dgvPreferences = new System.Windows.Forms.DataGridView();
             this.btnBack = new System.Windows.Forms.Button();
@@ -37,9 +38,9 @@
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnSave.Location = new System.Drawing.Point(617, 432);
+            this.btnSave.Location = new System.Drawing.Point(699, 477);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(101, 41);
+            this.btnSave.Size = new System.Drawing.Size(163, 68);
             this.btnSave.TabIndex = 0;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -50,22 +51,26 @@
             this.dgvPreferences.AllowUserToAddRows = false;
             this.dgvPreferences.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvPreferences.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPreferences.Location = new System.Drawing.Point(341, 78);
+            this.dgvPreferences.Location = new System.Drawing.Point(393, 70);
             this.dgvPreferences.Name = "dgvPreferences";
             this.dgvPreferences.RowHeadersWidth = 51;
             this.dgvPreferences.RowTemplate.Height = 24;
-            this.dgvPreferences.Size = new System.Drawing.Size(500, 299);
+            this.dgvPreferences.Size = new System.Drawing.Size(559, 366);
             this.dgvPreferences.TabIndex = 1;
             this.dgvPreferences.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPreferences_CellContentClick);
             // 
             // btnBack
             // 
             this.btnBack.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnBack.Location = new System.Drawing.Point(501, 432);
+            this.btnBack.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnBack.BackgroundImage")));
+            this.btnBack.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnBack.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold);
+            this.btnBack.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.btnBack.Location = new System.Drawing.Point(507, 477);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(101, 41);
+            this.btnBack.Size = new System.Drawing.Size(163, 68);
             this.btnBack.TabIndex = 2;
-            this.btnBack.Text = "Back";
+            this.btnBack.Text = "   Back";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
@@ -73,9 +78,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1262, 673);
-            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.dgvPreferences);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnSave);
             this.Name = "PreferenceForm";
             this.Text = "PreferenceForm";

@@ -51,9 +51,40 @@ namespace FunRunVolunteerSystem
             dgvPreferences.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvPreferences.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvPreferences.RowHeadersVisible = false;
-            dgvPreferences.AllowUserToResizeRows = false;
+            dgvPreferences.AllowUserToResizeRows = false; 
 
+            // DESIGN STYLE
+            dgvPreferences.BackgroundColor = Color.White;
 
+            dgvPreferences.BorderStyle = BorderStyle.None;
+
+            dgvPreferences.EnableHeadersVisualStyles = false;
+
+            dgvPreferences.ColumnHeadersDefaultCellStyle.BackColor =
+                Color.FromArgb(0, 120, 215);
+
+            dgvPreferences.ColumnHeadersDefaultCellStyle.ForeColor =
+                Color.White;
+
+            dgvPreferences.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 10, FontStyle.Bold);
+
+            dgvPreferences.DefaultCellStyle.Font =
+                new Font("Segoe UI", 10);
+
+            dgvPreferences.DefaultCellStyle.SelectionBackColor =
+                Color.LightSkyBlue;
+
+            dgvPreferences.DefaultCellStyle.SelectionForeColor =
+                Color.Black;
+
+            dgvPreferences.GridColor = Color.LightGray;
+
+            dgvPreferences.CellBorderStyle =
+                DataGridViewCellBorderStyle.Single;
+
+            dgvPreferences.ColumnHeadersBorderStyle =
+                DataGridViewHeaderBorderStyle.None;
         }
 
         // save preferences button
