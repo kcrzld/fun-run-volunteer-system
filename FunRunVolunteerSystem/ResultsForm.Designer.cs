@@ -75,7 +75,7 @@
             // 
             // btnStatistics
             // 
-            this.btnStatistics.Location = new System.Drawing.Point(691, 345);
+            this.btnStatistics.Location = new System.Drawing.Point(875, 361);
             this.btnStatistics.Name = "btnStatistics";
             this.btnStatistics.Size = new System.Drawing.Size(200, 60);
             this.btnStatistics.TabIndex = 1;
@@ -86,7 +86,7 @@
             // btnMatchRate
             // 
             this.btnMatchRate.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnMatchRate.Location = new System.Drawing.Point(485, 345);
+            this.btnMatchRate.Location = new System.Drawing.Point(875, 493);
             this.btnMatchRate.Name = "btnMatchRate";
             this.btnMatchRate.Size = new System.Drawing.Size(200, 60);
             this.btnMatchRate.TabIndex = 2;
@@ -96,7 +96,7 @@
             // 
             // btnViewPreferences
             // 
-            this.btnViewPreferences.Location = new System.Drawing.Point(279, 345);
+            this.btnViewPreferences.Location = new System.Drawing.Point(812, 39);
             this.btnViewPreferences.Name = "btnViewPreferences";
             this.btnViewPreferences.Size = new System.Drawing.Size(200, 60);
             this.btnViewPreferences.TabIndex = 3;
@@ -106,7 +106,7 @@
             // 
             // btnCapacityMonitor
             // 
-            this.btnCapacityMonitor.Location = new System.Drawing.Point(897, 345);
+            this.btnCapacityMonitor.Location = new System.Drawing.Point(875, 427);
             this.btnCapacityMonitor.Name = "btnCapacityMonitor";
             this.btnCapacityMonitor.Size = new System.Drawing.Size(200, 60);
             this.btnCapacityMonitor.TabIndex = 4;
@@ -118,12 +118,13 @@
             // 
             this.dgvDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDetails.Location = new System.Drawing.Point(279, 426);
+            this.dgvDetails.Location = new System.Drawing.Point(51, 361);
             this.dgvDetails.Name = "dgvDetails";
+            this.dgvDetails.ReadOnly = true;
             this.dgvDetails.RowHeadersWidth = 51;
             this.dgvDetails.RowTemplate.Height = 24;
             this.dgvDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDetails.Size = new System.Drawing.Size(240, 150);
+            this.dgvDetails.Size = new System.Drawing.Size(799, 300);
             this.dgvDetails.TabIndex = 5;
             this.dgvDetails.Visible = false;
             // 
