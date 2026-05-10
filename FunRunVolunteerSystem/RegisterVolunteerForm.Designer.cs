@@ -46,7 +46,7 @@
             this.btnRegister.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRegister.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold);
             this.btnRegister.ForeColor = System.Drawing.Color.White;
-            this.btnRegister.Location = new System.Drawing.Point(1099, 591);
+            this.btnRegister.Location = new System.Drawing.Point(1166, 544);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(163, 68);
             this.btnRegister.TabIndex = 3;
@@ -74,7 +74,7 @@
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBack.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBack.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnBack.Location = new System.Drawing.Point(813, 591);
+            this.btnBack.Location = new System.Drawing.Point(761, 544);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(163, 68);
             this.btnBack.TabIndex = 0;

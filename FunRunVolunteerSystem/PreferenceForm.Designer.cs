@@ -44,7 +44,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnSave.Location = new System.Drawing.Point(1318, 513);
+            this.btnSave.Location = new System.Drawing.Point(1280, 570);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(163, 68);
             this.btnSave.TabIndex = 0;
@@ -57,7 +57,7 @@
             this.dgvPreferences.AllowUserToAddRows = false;
             this.dgvPreferences.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvPreferences.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPreferences.Location = new System.Drawing.Point(379, 112);
+            this.dgvPreferences.Location = new System.Drawing.Point(326, 169);
             this.dgvPreferences.Name = "dgvPreferences";
             this.dgvPreferences.RowHeadersWidth = 51;
             this.dgvPreferences.RowTemplate.Height = 24;
@@ -73,7 +73,7 @@
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBack.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold);
             this.btnBack.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.btnBack.Location = new System.Drawing.Point(123, 513);
+            this.btnBack.Location = new System.Drawing.Point(70, 570);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(163, 68);
             this.btnBack.TabIndex = 2;

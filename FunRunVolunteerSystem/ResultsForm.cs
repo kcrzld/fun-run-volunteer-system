@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Drawing; // For the Color.
 
 namespace FunRunVolunteerSystem
 {
@@ -16,8 +17,24 @@ namespace FunRunVolunteerSystem
         private void ResultsForm_Load(object sender, EventArgs e)
         {
             LoadResults();
+
+            dgvPreferencesResult.ClearSelection();
+
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.WindowState = FormWindowState.Maximized;
+
+            // ==============================
+            // CLEANER DGV DESIGN
+            // ==============================
+
+            dgvDetails.BorderStyle = BorderStyle.None;
+            dgvDetails.BackgroundColor = Color.White;
+            dgvDetails.EnableHeadersVisualStyles = false;
+
+            dgvDetails.ColumnHeadersDefaultCellStyle.BackColor = Color.RoyalBlue;
+            dgvDetails.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            dgvDetails.RowHeadersVisible = false;
         }
 
         
@@ -79,12 +96,38 @@ namespace FunRunVolunteerSystem
             }
         }
 
+        // RESET DASHBOARD BUTTON COLORS
+
+        private void ResetButtonColors()
+        {
+            btnViewPreferences.BackColor = Color.RoyalBlue;
+            btnStatistics.BackColor = Color.RoyalBlue;
+            btnCapacityMonitor.BackColor = Color.RoyalBlue;
+            btnMatchRate.BackColor = Color.RoyalBlue;
+
+            btnViewPreferences.ForeColor = Color.White;
+            btnStatistics.ForeColor = Color.White;
+            btnCapacityMonitor.ForeColor = Color.White;
+            btnMatchRate.ForeColor = Color.White;
+        }
+
         private void dgvPreferencesResult_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
 
         private void btnStatistics_Click(object sender, EventArgs e)
         {
+
+            ResetButtonColors();
+
+            btnStatistics.BackColor = Color.White;
+            btnStatistics.ForeColor = Color.RoyalBlue;
+
+            lblInsightsTitle.Text = "Assignment Insights";
+
+            lblInsightsDesc.Text =
+                "Overview of volunteer assignment performance and matching results.";
+
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
@@ -132,6 +175,17 @@ namespace FunRunVolunteerSystem
 
         private void btnMatchRate_Click(object sender, EventArgs e)
         {
+
+            ResetButtonColors();
+
+            btnMatchRate.BackColor = Color.White;
+            btnMatchRate.ForeColor = Color.RoyalBlue;
+
+            lblInsightsTitle.Text = "Match Rate Analysis";
+
+            lblInsightsDesc.Text =
+                "Evaluation of assignment quality based on volunteer preferences.";
+
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
@@ -189,17 +243,36 @@ namespace FunRunVolunteerSystem
 
         private void btnViewPreferences_Click(object sender, EventArgs e)
         {
-            if (dgvPreferencesResult.CurrentRow == null)
+
+            ResetButtonColors();
+
+            btnViewPreferences.BackColor = Color.White;
+            btnViewPreferences.ForeColor = Color.RoyalBlue;
+
+            lblInsightsTitle.Text = "Volunteer Preferences";
+
+            lblInsightsDesc.Text =
+                "Ranked booth preferences for the selected volunteer.";
+
+            // Replaced the: if (dgvPreferencesResult.CurrentRow == null) into:
+
+            if (dgvPreferencesResult.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Select a volunteer first.");
                 return;
             }
 
+            // Replaced the: int volunteerID =
+            // Convert.ToInt32(dgvPreferencesResult.CurrentRow.Cells["VolunteerID"].Value); into
+
             int volunteerID =
-                Convert.ToInt32(dgvPreferencesResult.CurrentRow.Cells["VolunteerID"].Value);
+                Convert.ToInt32(dgvPreferencesResult.SelectedRows[0].Cells["VolunteerID"].Value);
+
+            // Replaced the: string volunteerName =
+            // dgvPreferencesResult.CurrentRow.Cells["Volunteer"].Value.ToString(); into
 
             string volunteerName =
-                dgvPreferencesResult.CurrentRow.Cells["Volunteer"].Value.ToString();
+                dgvPreferencesResult.SelectedRows[0].Cells["Volunteer"].Value.ToString();
 
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
@@ -229,6 +302,17 @@ namespace FunRunVolunteerSystem
 
         private void btnCapacityMonitor_Click(object sender, EventArgs e)
         {
+
+            ResetButtonColors();
+
+            btnCapacityMonitor.BackColor = Color.White;
+            btnCapacityMonitor.ForeColor = Color.RoyalBlue;
+
+            lblInsightsTitle.Text = "Capacity Monitor";
+
+            lblInsightsDesc.Text =
+                "Current booth capacities, assignments, and remaining slots.";
+
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
@@ -257,6 +341,14 @@ namespace FunRunVolunteerSystem
                 dgvDetails.AutoSizeColumnsMode =
                     DataGridViewAutoSizeColumnsMode.Fill;
             }
+        }
+
+        private void backbutton1_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+
+            this.Close();
         }
     }
 }
