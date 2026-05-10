@@ -34,10 +34,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.colVolunteer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAssignedBooth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnStatistics = new System.Windows.Forms.Button();
+            this.btnMatchRate = new System.Windows.Forms.Button();
+            this.btnViewPreferences = new System.Windows.Forms.Button();
+            this.btnCapacityMonitor = new System.Windows.Forms.Button();
+            this.dgvDetails = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPreferencesResult)).BeginInit();
-            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvPreferencesResult
@@ -58,9 +61,7 @@
             this.dgvPreferencesResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colVolunteer,
             this.colAssignedBooth});
-            this.dgvPreferencesResult.EnableHeadersVisualStyles = false;
-            this.dgvPreferencesResult.GridColor = System.Drawing.Color.LightSteelBlue;
-            this.dgvPreferencesResult.Location = new System.Drawing.Point(20, 8);
+            this.dgvPreferencesResult.Location = new System.Drawing.Point(279, 39);
             this.dgvPreferencesResult.Name = "dgvPreferencesResult";
             this.dgvPreferencesResult.ReadOnly = true;
             this.dgvPreferencesResult.RowHeadersVisible = false;
@@ -97,50 +98,76 @@
             this.colAssignedBooth.ReadOnly = true;
             this.colAssignedBooth.Width = 125;
             // 
-            // button1
+            // btnStatistics
             // 
-            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold);
-            this.button1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.button1.Location = new System.Drawing.Point(309, 797);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 68);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "   Back";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnStatistics.Location = new System.Drawing.Point(691, 345);
+            this.btnStatistics.Name = "btnStatistics";
+            this.btnStatistics.Size = new System.Drawing.Size(200, 60);
+            this.btnStatistics.TabIndex = 1;
+            this.btnStatistics.Text = "Statistics";
+            this.btnStatistics.UseVisualStyleBackColor = true;
+            this.btnStatistics.Click += new System.EventHandler(this.btnStatistics_Click);
             // 
-            // button2
+            // btnMatchRate
             // 
-            this.button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button2.BackgroundImage")));
-            this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button2.Font = new System.Drawing.Font("Verdana", 10.8F, System.Drawing.FontStyle.Bold);
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(1608, 797);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(163, 68);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "   Export";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnMatchRate.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnMatchRate.Location = new System.Drawing.Point(485, 345);
+            this.btnMatchRate.Name = "btnMatchRate";
+            this.btnMatchRate.Size = new System.Drawing.Size(200, 60);
+            this.btnMatchRate.TabIndex = 2;
+            this.btnMatchRate.Text = "Match Rate";
+            this.btnMatchRate.UseVisualStyleBackColor = true;
+            this.btnMatchRate.Click += new System.EventHandler(this.btnMatchRate_Click);
+            // 
+            // btnViewPreferences
+            // 
+            this.btnViewPreferences.Location = new System.Drawing.Point(279, 345);
+            this.btnViewPreferences.Name = "btnViewPreferences";
+            this.btnViewPreferences.Size = new System.Drawing.Size(200, 60);
+            this.btnViewPreferences.TabIndex = 3;
+            this.btnViewPreferences.Text = "View Preferences";
+            this.btnViewPreferences.UseVisualStyleBackColor = true;
+            this.btnViewPreferences.Click += new System.EventHandler(this.btnViewPreferences_Click);
+            // 
+            // btnCapacityMonitor
+            // 
+            this.btnCapacityMonitor.Location = new System.Drawing.Point(897, 345);
+            this.btnCapacityMonitor.Name = "btnCapacityMonitor";
+            this.btnCapacityMonitor.Size = new System.Drawing.Size(200, 60);
+            this.btnCapacityMonitor.TabIndex = 4;
+            this.btnCapacityMonitor.Text = "Capacity Monitor";
+            this.btnCapacityMonitor.UseVisualStyleBackColor = true;
+            this.btnCapacityMonitor.Click += new System.EventHandler(this.btnCapacityMonitor_Click);
+            // 
+            // dgvDetails
+            // 
+            this.dgvDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDetails.Location = new System.Drawing.Point(279, 426);
+            this.dgvDetails.Name = "dgvDetails";
+            this.dgvDetails.RowHeadersWidth = 51;
+            this.dgvDetails.RowTemplate.Height = 24;
+            this.dgvDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvDetails.Size = new System.Drawing.Size(240, 150);
+            this.dgvDetails.TabIndex = 5;
+            this.dgvDetails.Visible = false;
             // 
             // ResultsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1924, 1055);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(1262, 673);
+            this.Controls.Add(this.dgvDetails);
+            this.Controls.Add(this.btnCapacityMonitor);
+            this.Controls.Add(this.btnViewPreferences);
+            this.Controls.Add(this.btnMatchRate);
+            this.Controls.Add(this.btnStatistics);
+            this.Controls.Add(this.dgvPreferencesResult);
             this.Name = "ResultsForm";
             this.Text = "ResultsForm";
             this.Load += new System.EventHandler(this.ResultsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPreferencesResult)).EndInit();
-            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -151,7 +178,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn colVolunteer;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAssignedBooth;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnStatistics;
+        private System.Windows.Forms.Button btnMatchRate;
+        private System.Windows.Forms.Button btnViewPreferences;
+        private System.Windows.Forms.Button btnCapacityMonitor;
+        private System.Windows.Forms.DataGridView dgvDetails;
     }
 }

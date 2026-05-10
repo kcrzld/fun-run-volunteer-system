@@ -40,23 +40,19 @@ namespace FunRunVolunteerSystem
 
             if (count < 55)
             {
-                MessageBox.Show(
-                    "Not enough volunteers yet.",
-                    "Warning",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Not enough volunteers yet.");
                 return;
             }
 
             List<int> volunteerIds;
             List<int> boothSlots;
+            Dictionary<int, int> slotToBooth;
 
-            int[,] cost = BuildCostMatrix(out volunteerIds, out boothSlots);
+            int[,] cost = BuildCostMatrix(out volunteerIds, out boothSlots, out slotToBooth);
 
             int[] result = HungarianAlgorithm.Run(cost);
 
-            SaveAssignments(result, volunteerIds, boothSlots);
+            SaveAssignments(result, volunteerIds, boothSlots, slotToBooth);
 
             MessageBox.Show("Assignment Completed!");
         }
@@ -119,16 +115,17 @@ namespace FunRunVolunteerSystem
         /* build cost matrix for the hungarian method - 
          * converts the real-world data (preferences) into a numerical 
          * matrix that the Hungarian algorithm can understand and process */
-        private int[,] BuildCostMatrix(out List<int> volunteerIds, out List<int> boothSlots)
+        private int[,] BuildCostMatrix(out List<int> volunteerIds, out List<int> boothSlots, out Dictionary<int, int> slotToBooth)
         {
             volunteerIds = new List<int>();
             boothSlots = new List<int>();
+            slotToBooth = new Dictionary<int, int>();
 
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
 
-                // volunteers
+                // GET VOLUNTEERS
                 SqlCommand vcmd = new SqlCommand(
                     "SELECT VolunteerID FROM Volunteers ORDER BY VolunteerID", con);
 
@@ -137,7 +134,7 @@ namespace FunRunVolunteerSystem
                     volunteerIds.Add(Convert.ToInt32(vr[0]));
                 vr.Close();
 
-                // booth slots (5 per booth)
+                // GET BOOTH SLOTS (FIXED)
                 SqlCommand bcmd = new SqlCommand(
                     "SELECT BoothID FROM Booths ORDER BY BoothID", con);
 
@@ -147,7 +144,12 @@ namespace FunRunVolunteerSystem
                     int boothID = Convert.ToInt32(br[0]);
 
                     for (int i = 0; i < 5; i++)
-                        boothSlots.Add(boothID);
+                    {
+                        int slotId = boothID * 10 + i; // unique slot ID
+
+                        boothSlots.Add(slotId);
+                        slotToBooth[slotId] = boothID;
+                    }
                 }
                 br.Close();
 
@@ -161,23 +163,26 @@ namespace FunRunVolunteerSystem
                     {
                         if (i < volunteerIds.Count && j < boothSlots.Count)
                         {
+                            int slotId = boothSlots[j];
+                            int boothID = slotToBooth[slotId];
+
                             SqlCommand pcmd = new SqlCommand(@"
-                                SELECT PreferenceScore
-                                FROM Preferences
-                                WHERE VolunteerID = @v AND BoothID = @b", con);
+                        SELECT PreferenceScore
+                        FROM Preferences
+                        WHERE VolunteerID = @v AND BoothID = @b", con);
 
                             pcmd.Parameters.AddWithValue("@v", volunteerIds[i]);
-                            pcmd.Parameters.AddWithValue("@b", boothSlots[j]);
+                            pcmd.Parameters.AddWithValue("@b", boothID);
 
                             object res = pcmd.ExecuteScalar();
 
-                            matrix[i, j] = (res != null)
+                            matrix[i, j] = (res != null && res != DBNull.Value)
                                 ? Convert.ToInt32(res)
-                                : 100; // penalty cost
+                                : 11; // worst cost
                         }
                         else
                         {
-                            matrix[i, j] = 100; // dummy padding for Hungarian
+                            matrix[i, j] = 11;
                         }
                     }
                 }
@@ -187,47 +192,33 @@ namespace FunRunVolunteerSystem
         }
 
         // fixed saving with 5-slot capacity rule
-        private void SaveAssignments(int[] result, List<int> volunteerIds, List<int> boothSlots)
+        private void SaveAssignments(int[] result, List<int> volunteerIds, List<int> boothSlots, Dictionary<int, int> slotToBooth)
         {
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
 
-                // clear old data
-                SqlCommand clear = new SqlCommand("DELETE FROM Assignments", con);
-                clear.ExecuteNonQuery();
+                SqlCommand delete = new SqlCommand("DELETE FROM Assignments", con);
+                delete.ExecuteNonQuery();
 
-                Dictionary<int, int> boothCount = new Dictionary<int, int>();
-                int maxPerBooth = 5;
-
-                foreach (int b in boothSlots)
-                    boothCount[b] = 0;
-
-                int n = Math.Min(result.Length, volunteerIds.Count);
-
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < result.Length; i++)
                 {
-                    int slotIndex = result[i];
+                    if (i >= volunteerIds.Count) continue;
+                    if (result[i] >= boothSlots.Count) continue;
 
-                    if (slotIndex >= 0 && slotIndex < boothSlots.Count)
-                    {
-                        int boothID = boothSlots[slotIndex];
+                    int volunteerId = volunteerIds[i];
 
-                        // enforce 5-slot limit
-                        if (boothCount[boothID] < maxPerBooth)
-                        {
-                            SqlCommand cmd = new SqlCommand(@"
-                                INSERT INTO Assignments (VolunteerID, BoothID)
-                                VALUES (@v, @b)", con);
+                    int slotId = boothSlots[result[i]];
+                    int boothId = slotToBooth[slotId];
 
-                            cmd.Parameters.AddWithValue("@v", volunteerIds[i]);
-                            cmd.Parameters.AddWithValue("@b", boothID);
+                    SqlCommand insert = new SqlCommand(@"
+                INSERT INTO Assignments (VolunteerID, BoothID)
+                VALUES (@v, @b)", con);
 
-                            cmd.ExecuteNonQuery();
+                    insert.Parameters.AddWithValue("@v", volunteerId);
+                    insert.Parameters.AddWithValue("@b", boothId);
 
-                            boothCount[boothID]++;
-                        }
-                    }
+                    insert.ExecuteNonQuery();
                 }
             }
         }
