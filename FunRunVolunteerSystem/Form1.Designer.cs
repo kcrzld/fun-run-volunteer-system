@@ -41,6 +41,7 @@
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExit.BackgroundImage")));
             this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExit.ForeColor = System.Drawing.Color.White;
             this.btnExit.Location = new System.Drawing.Point(486, 693);
@@ -57,6 +58,7 @@
             this.btnDisplayResults.BackColor = System.Drawing.Color.Transparent;
             this.btnDisplayResults.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnDisplayResults.BackgroundImage")));
             this.btnDisplayResults.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnDisplayResults.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDisplayResults.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDisplayResults.ForeColor = System.Drawing.Color.White;
             this.btnDisplayResults.Location = new System.Drawing.Point(486, 583);
@@ -73,6 +75,7 @@
             this.btnComputeAssignment.BackColor = System.Drawing.Color.Transparent;
             this.btnComputeAssignment.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnComputeAssignment.BackgroundImage")));
             this.btnComputeAssignment.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnComputeAssignment.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnComputeAssignment.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnComputeAssignment.ForeColor = System.Drawing.Color.White;
             this.btnComputeAssignment.Location = new System.Drawing.Point(486, 470);
@@ -89,6 +92,7 @@
             this.btnAddVolunteer.BackColor = System.Drawing.Color.Transparent;
             this.btnAddVolunteer.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAddVolunteer.BackgroundImage")));
             this.btnAddVolunteer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnAddVolunteer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddVolunteer.Font = new System.Drawing.Font("MS Reference Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddVolunteer.ForeColor = System.Drawing.Color.White;
             this.btnAddVolunteer.Location = new System.Drawing.Point(486, 361);
