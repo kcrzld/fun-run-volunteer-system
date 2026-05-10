@@ -89,31 +89,44 @@ namespace FunRunVolunteerSystem
             {
                 con.Open();
 
-                // total volunteers
-                SqlCommand cmd1 = new SqlCommand(
-                    "SELECT COUNT(*) FROM Volunteers", con);
+                SqlDataAdapter da = new SqlDataAdapter(@"
+            SELECT 
+                COUNT(*) AS TotalAssignments,
+                
+                SUM(CASE WHEN p.PreferenceScore = 1 THEN 1 ELSE 0 END) AS BestMatches,
+                SUM(CASE WHEN p.PreferenceScore = 2 THEN 1 ELSE 0 END) AS SecondMatches,
+                SUM(CASE WHEN p.PreferenceScore = 3 THEN 1 ELSE 0 END) AS ThirdMatches,
+                SUM(CASE WHEN p.PreferenceScore >= 4 THEN 1 ELSE 0 END) AS PoorMatches
+            FROM Assignments a
+            INNER JOIN Preferences p 
+                ON a.VolunteerID = p.VolunteerID 
+                AND a.BoothID = p.BoothID
+        ", con);
 
-                int totalVolunteers = (int)cmd1.ExecuteScalar();
+                DataTable dt = new DataTable();
+                da.Fill(dt);
 
-                // assigned volunteers
-                SqlCommand cmd2 = new SqlCommand(
-                    "SELECT COUNT(*) FROM Assignments", con);
+                // Convert to readable format (Metric - Value style)
+                DataTable formatted = new DataTable();
+                formatted.Columns.Add("Metric");
+                formatted.Columns.Add("Value");
 
-                int assigned = (int)cmd2.ExecuteScalar();
+                if (dt.Rows.Count > 0)
+                {
+                    DataRow row = dt.Rows[0];
 
-                // total booths
-                SqlCommand cmd3 = new SqlCommand(
-                    "SELECT COUNT(*) FROM Booths", con);
+                    formatted.Rows.Add("Total Assignments", row["TotalAssignments"]);
+                    formatted.Rows.Add("Best Matches (1st Choice)", row["BestMatches"]);
+                    formatted.Rows.Add("Second Matches", row["SecondMatches"]);
+                    formatted.Rows.Add("Third Matches", row["ThirdMatches"]);
+                    formatted.Rows.Add("Poor Matches (4+)", row["PoorMatches"]);
+                }
 
-                int totalBooths = (int)cmd3.ExecuteScalar();
+                dgvDetails.Visible = true;
+                dgvDetails.DataSource = formatted;
 
-                MessageBox.Show(
-                    "Total Volunteers: " + totalVolunteers +
-                    "\nAssigned Volunteers: " + assigned +
-                    "\nTotal Booths: " + totalBooths,
-                    "Assignment Statistics",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                dgvDetails.AutoSizeColumnsMode =
+                    DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
@@ -123,33 +136,27 @@ namespace FunRunVolunteerSystem
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand(@"
+                // Get raw match data
+                SqlDataAdapter da = new SqlDataAdapter(@"
             SELECT 
-                a.VolunteerID,
-                a.BoothID,
                 p.PreferenceScore
             FROM Assignments a
-            LEFT JOIN Preferences p
-                ON a.VolunteerID = p.VolunteerID
-               AND a.BoothID = p.BoothID
+            INNER JOIN Preferences p 
+                ON a.VolunteerID = p.VolunteerID 
+                AND a.BoothID = p.BoothID
         ", con);
 
-                SqlDataReader reader = cmd.ExecuteReader();
+                DataTable raw = new DataTable();
+                da.Fill(raw);
 
-                int total = 0;
-                int best = 0;
-                int second = 0;
-                int third = 0;
-                int poor = 0;
+                int total = raw.Rows.Count;
+                int best = 0, second = 0, third = 0, poor = 0;
+
                 int totalCost = 0;
 
-                while (reader.Read())
+                foreach (DataRow row in raw.Rows)
                 {
-                    int score = (reader["PreferenceScore"] == DBNull.Value)
-                        ? 11
-                        : Convert.ToInt32(reader["PreferenceScore"]);
-
-                    total++;
+                    int score = Convert.ToInt32(row["PreferenceScore"]);
                     totalCost += score;
 
                     if (score == 1) best++;
@@ -158,17 +165,25 @@ namespace FunRunVolunteerSystem
                     else poor++;
                 }
 
-                double avg = total == 0 ? 0 : (double)totalCost / total;
-                double bestRate = total == 0 ? 0 : (double)best / total * 100;
+                double avg = (total > 0) ? (double)totalCost / total : 0;
+                double bestRate = (total > 0) ? (double)best / total * 100 : 0;
 
-                MessageBox.Show(
-                    $"Total: {total}\n" +
-                    $"Best: {best}\nSecond: {second}\nThird: {third}\nPoor: {poor}\n\n" +
-                    $"Total Cost: {totalCost}\n" +
-                    $"Average Cost: {avg:0.00}\n" +
-                    $"Optimal Rate: {bestRate:0.00}%",
-                    "Hungarian Analysis"
-                );
+                // Convert to table format
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Metric");
+                dt.Columns.Add("Value");
+
+                dt.Rows.Add("Total Assignments", total);
+                dt.Rows.Add("Best (1st Choice)", best);
+                dt.Rows.Add("Second Choice", second);
+                dt.Rows.Add("Third Choice", third);
+                dt.Rows.Add("Poor (4+)", poor);
+                dt.Rows.Add("Total Cost", totalCost);
+                dt.Rows.Add("Average Cost", avg.ToString("0.00"));
+                dt.Rows.Add("Optimal Rate (%)", bestRate.ToString("0.00"));
+
+                dgvDetails.Visible = true;
+                dgvDetails.DataSource = dt;
             }
         }
 
@@ -183,14 +198,17 @@ namespace FunRunVolunteerSystem
             int volunteerID =
                 Convert.ToInt32(dgvPreferencesResult.CurrentRow.Cells["VolunteerID"].Value);
 
+            string volunteerName =
+                dgvPreferencesResult.CurrentRow.Cells["Volunteer"].Value.ToString();
+
             using (SqlConnection con = DatabaseHelper.GetConnection())
             {
                 con.Open();
 
                 SqlDataAdapter da = new SqlDataAdapter(@"
             SELECT 
-                p.PreferenceScore,
-                b.BoothName
+                p.PreferenceScore AS Rank,
+                b.BoothName AS Booth
             FROM Preferences p
             INNER JOIN Booths b ON p.BoothID = b.BoothID
             WHERE p.VolunteerID = @VolunteerID
@@ -202,10 +220,9 @@ namespace FunRunVolunteerSystem
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
+                // optional: add title row style via label later
                 dgvDetails.Visible = true;
                 dgvDetails.DataSource = dt;
-
-                dgvDetails.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
         
@@ -216,34 +233,29 @@ namespace FunRunVolunteerSystem
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand(@"
+                SqlDataAdapter da = new SqlDataAdapter(@"
             SELECT 
-                b.BoothName,
-                COUNT(a.AssignmentID) AS AssignedCount
+                b.BoothName AS Booth,
+                b.RequiredVolunteers AS Capacity,
+                COUNT(a.VolunteerID) AS Assigned,
+                (b.RequiredVolunteers - COUNT(a.VolunteerID)) AS Remaining,
+                CAST(
+                    (COUNT(a.VolunteerID) * 100.0 / b.RequiredVolunteers)
+                AS DECIMAL(5,2)) AS FillRate
             FROM Booths b
-            LEFT JOIN Assignments a
+            LEFT JOIN Assignments a 
                 ON b.BoothID = a.BoothID
-            GROUP BY b.BoothName
+            GROUP BY b.BoothName, b.RequiredVolunteers
         ", con);
 
-                SqlDataReader reader = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                da.Fill(dt);
 
-                string result = "";
+                dgvDetails.Visible = true;
+                dgvDetails.DataSource = dt;
 
-                while (reader.Read())
-                {
-                    result +=
-                        reader["BoothName"].ToString() +
-                        " → " +
-                        reader["AssignedCount"].ToString() +
-                        " Volunteers\n";
-                }
-
-                MessageBox.Show(
-                    result,
-                    "Booth Capacity Monitor",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                dgvDetails.AutoSizeColumnsMode =
+                    DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
     }
