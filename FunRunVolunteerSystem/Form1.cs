@@ -36,25 +36,63 @@ namespace FunRunVolunteerSystem
         // compute assignment button
         private void btnComputeAssignment_Click(object sender, EventArgs e)
         {
-            int count = GetVolunteerCount();
-
-            if (count < 55)
+            try
             {
-                MessageBox.Show("Not enough volunteers yet.");
-                return;
+                // Confirmation before running assignment
+                DialogResult confirm = MessageBox.Show(
+                    "This will generate and save booth assignments for volunteers.\n\nDo you want to continue?",
+                    "Confirm Assignment",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirm != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                int count = GetVolunteerCount();
+
+                // Warning if not enough volunteers
+                if (count < 55)
+                {
+                    MessageBox.Show(
+                        $"Not enough volunteers yet.\n\nCurrent Count: {count}\nRequired Count: 55",
+                        "Insufficient Volunteers",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                List<int> volunteerIds;
+                List<int> boothSlots;
+                Dictionary<int, int> slotToBooth;
+
+                // Build cost matrix
+                int[,] cost = BuildCostMatrix(out volunteerIds, out boothSlots, out slotToBooth);
+
+                // Run assignment algorithm
+                int[] result = HungarianAlgorithm.Run(cost);
+
+                // Save assignments
+                SaveAssignments(result, volunteerIds, boothSlots, slotToBooth);
+
+                // Success message
+                MessageBox.Show(
+                    "Volunteer assignments were successfully generated and saved.",
+                    "Assignment Completed",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
-
-            List<int> volunteerIds;
-            List<int> boothSlots;
-            Dictionary<int, int> slotToBooth;
-
-            int[,] cost = BuildCostMatrix(out volunteerIds, out boothSlots, out slotToBooth);
-
-            int[] result = HungarianAlgorithm.Run(cost);
-
-            SaveAssignments(result, volunteerIds, boothSlots, slotToBooth);
-
-            MessageBox.Show("Assignment Completed!");
+            catch (Exception ex)
+            {
+                // Error handling
+                MessageBox.Show(
+                    "An error occurred while computing assignments.\n\n" + ex.Message,
+                    "Assignment Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         // display results button
@@ -89,7 +127,16 @@ namespace FunRunVolunteerSystem
         // exit button
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            DialogResult result = MessageBox.Show(
+            "Are you sure you want to exit the application?",
+            "Exit Confirmation",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
 
 
