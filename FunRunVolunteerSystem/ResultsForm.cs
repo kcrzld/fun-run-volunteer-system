@@ -12,6 +12,11 @@ namespace FunRunVolunteerSystem
         public ResultsForm()
         {
             InitializeComponent();
+            dgvPreferencesResult.DefaultCellStyle.Font =
+               new Font("Segoe UI", 9F);
+
+            dgvPreferencesResult.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Segoe UI", 10F, FontStyle.Bold);
         }
 
         private void ResultsForm_Load(object sender, EventArgs e)

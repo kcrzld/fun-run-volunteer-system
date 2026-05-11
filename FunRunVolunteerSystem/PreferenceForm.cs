@@ -85,6 +85,23 @@ namespace FunRunVolunteerSystem
 
             dgvPreferences.ColumnHeadersBorderStyle =
                 DataGridViewHeaderBorderStyle.None;
+
+            // start cursor at first preference score cell
+            dgvPreferences.CurrentCell =
+                dgvPreferences.Rows[0].Cells[1];
+
+            // highlight first score cell
+            dgvPreferences.Rows[0].Cells[1].Selected = true;
+
+            // Make tab go downward
+            dgvPreferences.StandardTab = false;
+
+            // prevent dgv from using default tab navigation
+            this.KeyPreview = true;
+
+            //  ENABLE CUSTOM TAB MOVEMENT (moves downward only)
+
+            dgvPreferences.KeyDown += dgvPreferences_KeyDown;
         }
 
         // save preferences button
@@ -240,6 +257,34 @@ namespace FunRunVolunteerSystem
         private void dgvPreferences_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        // CUSTOM TAB MOVEMENT
+        // TAB KEY MOVES DOWNWARD ONLY
+
+        private void dgvPreferences_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                // stop default tab behavior
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+
+                // save current edit first
+                dgvPreferences.EndEdit();
+
+                int currentRow =
+                    dgvPreferences.CurrentCell.RowIndex;
+
+                int nextRow = currentRow + 1;
+
+                // move downward only
+                if (nextRow < dgvPreferences.Rows.Count)
+                {
+                    dgvPreferences.CurrentCell =
+                        dgvPreferences.Rows[nextRow].Cells[1];
+                }
+            }
         }
 
         private void btnBack_Click(object sender, EventArgs e)
