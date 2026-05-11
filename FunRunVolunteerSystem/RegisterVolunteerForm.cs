@@ -51,7 +51,12 @@ namespace FunRunVolunteerSystem
                 volunteerID = (int)cmd.ExecuteScalar();
             }
 
-            MessageBox.Show("Volunteer Registered Successfully!");
+            MessageBox.Show(
+                "Volunteer Registered Successfully!",
+                "Success",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
 
             PreferenceForm prefForm = new PreferenceForm(volunteerID);
 

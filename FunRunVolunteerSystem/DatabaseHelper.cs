@@ -7,7 +7,7 @@ namespace FunRunVolunteerSystem
     {
         
         private static string connectionString =
-        @"Data Source=(localdb)\MSSQLLocalDB;
+        @"Data Source=DESKTOP-EOUBALT\SQLEXPRESS;
         Initial Catalog=FunRunDB;
         Integrated Security=True";
 
